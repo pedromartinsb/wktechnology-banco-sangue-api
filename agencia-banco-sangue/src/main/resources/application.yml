@@ -1,6 +1,45 @@
+server:
+  port: 9090
+
 spring:
   application:
     name: blood-center
+  datasource:
+    driverClassName: 'com.mysql.cj.jdbc.Driver'
+    url: 'jdbc:mysql://localhost:3306/blood_center?useTimezone=true&serverTimezone=UTC&useSSL=false'
+    username: 'root'
+    password: 'root1234'
+  jpa:
+    database-platform: 'org.hibernate.dialect.MYSQL5InnoDBDialect'
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  boot:
+    admin:
+      client:
+        url: 'http://localhost:9091/'
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    web:
+      exposure:
+        include: '*'
+info:
+  app:
+    name: @project.name@
+    description: @project.description@
+    version: @project.version@
+    encoding: @project.build.sourceEncoding@
+    java:
+      version: @java.version@
+
+flyway:
+  url: 'jdbc:mysql://localhost:3306/'
+  schemas: 'blood_center'
+  user: 'root'
+  password: 'root1234'
 
 baseurl:
-  v1: blood-center/v1
+  v1: 'blood-center/v1'
