@@ -10,7 +10,7 @@ spring:
     username: 'root'
     password: 'root1234'
   jpa:
-    database-platform: 'org.hibernate.dialect.MYSQL5InnoDBDialect'
+    database-platform: 'org.hibernate.dialect.MySQL5Dialect'
     hibernate:
       ddl-auto: update
     show-sql: false
