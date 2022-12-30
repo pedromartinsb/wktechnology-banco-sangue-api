@@ -58,11 +58,9 @@ public class PersonController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
     @Validated
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("find-candidates")
-    public FindCandidatesResponseJson find(
-            final @RequestBody() @Valid FindCandidatesRequestJson findCandidatesRequestJson) {
-        log.info("findCandidatesRequestJson: {}", findCandidatesRequestJson);
-        List<FindCandidates> findCandidates = this.findCandidatesPerStateUseCase.find(findCandidatesRequestJson);
+    @GetMapping("find-candidates")
+    public FindCandidatesResponseJson find() {
+        List<FindCandidates> findCandidates = this.findCandidatesPerStateUseCase.find();
         return FindCandidatesResponseJson
                 .builder()
                 .persons(findCandidates)

@@ -1,10 +1,9 @@
 package br.com.wktechnology.agenciabancosangue.usecases;
 
+import br.com.wktechnology.agenciabancosangue.domains.Person;
 import br.com.wktechnology.agenciabancosangue.domains.enums.States;
 import br.com.wktechnology.agenciabancosangue.gateways.database.person.PersonDatabaseGateway;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CreatePersonRequestJson;
 import br.com.wktechnology.agenciabancosangue.domains.FindCandidates;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.FindCandidatesRequestJson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +18,14 @@ public class FindCandidatesPerStateUseCase {
     @Autowired
     private PersonDatabaseGateway personDatabaseGateway;
 
-    public List<FindCandidates> find(final FindCandidatesRequestJson findCandidatesRequestJson) {
-        log.info("findCandidatesRequestJson: {}", findCandidatesRequestJson);
+    @Autowired
+    private GetPersonUseCase getPersonUseCase;
+
+    public List<FindCandidates> find() {
+        List<Person> candidates = this.getPersonUseCase.findAll();
         List<FindCandidates> findCandidatesReturn = new ArrayList<>();
-        List<String> candidatesStates = findCandidatesRequestJson
-                .getPersons().stream()
-                .map(CreatePersonRequestJson::getState).collect(Collectors.toList());
+        List<String> candidatesStates = candidates.stream()
+                .map(Person::getState).collect(Collectors.toList());
 
         for (States state : States.values()) {
             fillCandidatesList(findCandidatesReturn, candidatesStates, state);
