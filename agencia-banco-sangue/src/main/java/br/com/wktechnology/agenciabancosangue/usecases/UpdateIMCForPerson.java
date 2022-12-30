@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class SaveIMCForPerson {
+public class UpdateIMCForPerson {
 
     @Autowired
     private PersonDatabaseGateway personDatabaseGateway;
