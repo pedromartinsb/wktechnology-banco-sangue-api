@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS person (
     name varchar(255) DEFAULT NULL,
     cpf varchar(14) DEFAULT NULL,
     rg varchar(12) DEFAULT NULL,
-    birth_date timestamp,
+    birth_date varchar(10) DEFAULT NULL,
     gender varchar(9) DEFAULT NULL,
     mother varchar(255) DEFAULT NULL,
     father varchar(255) DEFAULT NULL,

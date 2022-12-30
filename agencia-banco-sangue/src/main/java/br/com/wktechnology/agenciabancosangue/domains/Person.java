@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Data
 @Builder
@@ -26,17 +25,17 @@ public class Person {
     private String name;
 
     @NonNull
-    @Length(max = 14)
+    @Length(max = 14, message = "O campo deve conter no máximo 14 caracteres.")
     private String cpf;
 
     @NonNull
-    @Length(max = 12)
+    @Length(max = 12, message = "O campo deve conter no máximo 12 caracteres.")
     private String rg;
 
     @Column(name = "birth_date")
-    private LocalDate birthDate;
+    private String birthDate;
 
-    @Length(max = 9)
+    @Length(max = 9, message = "O campo deve conter no máximo 9 caracteres.")
     private String gender;
 
     private String mother;
@@ -47,25 +46,25 @@ public class Person {
     @NotNull
     private String email;
 
-    @Length(max = 10)
+    @Length(max = 10, message = "O campo deve conter no máximo 10 caracteres.")
     private String cep;
 
     private String street;
 
-    @Length(max = 3)
+    @Length(max = 3, message = "O campo deve conter no máximo 3 números.")
     private Long number;
 
     private String neighborhood;
 
     private String city;
 
-    @Length(max = 2)
+    @Length(max = 2, message = "O campo deve conter no máximo 2 caracteres.")
     private String state;
 
-    @Length(max = 16)
+    @Length(max = 16, message = "O campo deve conter no máximo 16 caracteres.")
     private String phone;
 
-    @Length(max = 17)
+    @Length(max = 17, message = "O campo deve conter no máximo 17 caracteres.")
     private String cellphone;
 
     private Double height;
@@ -73,6 +72,6 @@ public class Person {
     private Double weight;
 
     @Column(name = "blood_type")
-    @Length(max = 2)
+    @Length(max = 2, message = "O campo deve conter no máximo 2 caracteres.")
     private String bloodType;
 }

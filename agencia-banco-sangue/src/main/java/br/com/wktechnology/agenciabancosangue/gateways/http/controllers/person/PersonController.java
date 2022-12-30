@@ -1,5 +1,6 @@
 package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person;
 
+import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.FindCandidatesJson;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.FindCandidatesRequestJson;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.FindCandidatesResponseJson;
 import br.com.wktechnology.agenciabancosangue.usecases.FindCandidatesPerStateUseCase;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @CrossOrigin(origins = "*")
@@ -38,10 +40,10 @@ public class PersonController {
     public FindCandidatesResponseJson find(
             final @RequestBody(required = true) @Valid FindCandidatesRequestJson findCandidatesRequestJson) {
         log.info("findCandidatesRequestJson: {}", findCandidatesRequestJson);
-        final Integer numberOfCandidates = this.findCandidatesPerStateUseCase.find(findCandidatesRequestJson.getState());
+        List<FindCandidatesJson> findCandidatesJson = this.findCandidatesPerStateUseCase.find(findCandidatesRequestJson);
         return FindCandidatesResponseJson
                 .builder()
-                .number(numberOfCandidates)
+                .persons(findCandidatesJson)
                 .build();
     }
 }

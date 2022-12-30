@@ -29,7 +29,7 @@ public class CreatePersonRequestJson {
 
     @JsonProperty("data_nasc")
     @NotEmpty(message = "Campo data_nasc é obrigatório.")
-    private LocalDate birthDate;
+    private String birthDate;
 
     @Length(max = 9)
     @JsonProperty("sexo")

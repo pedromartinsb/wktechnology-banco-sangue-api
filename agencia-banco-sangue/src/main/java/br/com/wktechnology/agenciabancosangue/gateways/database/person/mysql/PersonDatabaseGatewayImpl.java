@@ -13,8 +13,4 @@ public class PersonDatabaseGatewayImpl implements PersonDatabaseGateway {
     @Autowired
     private PersonRepository personRepository;
 
-    @Override
-    public Integer findCandidatesPerState(String state) {
-        return this.personRepository.findByState(state).size();
-    }
 }
