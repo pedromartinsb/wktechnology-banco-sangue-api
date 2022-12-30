@@ -6,11 +6,8 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
 
-@Getter
-@Builder
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreatePersonRequestJson {
@@ -30,6 +27,9 @@ public class CreatePersonRequestJson {
     @JsonProperty("data_nasc")
     @NotEmpty(message = "Campo data_nasc é obrigatório.")
     private String birthDate;
+
+    @JsonProperty("idade")
+    private Integer age;
 
     @Length(max = 9)
     @JsonProperty("sexo")

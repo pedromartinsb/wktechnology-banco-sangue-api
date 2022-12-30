@@ -1,18 +1,19 @@
 package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json;
 
-import br.com.wktechnology.agenciabancosangue.domains.FindCandidates;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Getter
 @Builder
 @ToString
-public class FindCandidatesResponseJson {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CalculateIMCRequestJson {
 
     @JsonProperty("pessoas")
-    private List<FindCandidates> persons;
+    @NotEmpty
+    private List<CreatePersonRequestJson> persons;
 }
