@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 
 @Slf4j
 @Service
@@ -60,15 +61,20 @@ public class CalculateIMCUseCase {
             final Integer greaterGap,
             final Integer index) {
 
+        List<Double> imcs = new ArrayList<>();
+
         for (CreatePersonRequestJson person : calculateIMCRequestJson.getPersons()) {
             var age = person.getAge();
             if (age >= smallerGap && age < greaterGap) {
                 var weight = calculateIMCRequestJson.getPersons().get(index).getWeight();
                 var height = calculateIMCRequestJson.getPersons().get(index).getHeight();
-                return weight / (height * height);
+                var imc = weight / (height * height);
+                imcs.add(imc);
             }
         }
-        return 0.0;
+
+        OptionalDouble average = imcs.stream().mapToDouble(a -> a).average();
+        return average.isPresent() ? average.getAsDouble() : 0.0;
     }
 
     private List<Integer> getAges(final CalculateIMCRequestJson calculateIMCRequestJson) {
