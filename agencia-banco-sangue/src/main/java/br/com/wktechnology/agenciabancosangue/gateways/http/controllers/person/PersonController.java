@@ -4,6 +4,7 @@ import br.com.wktechnology.agenciabancosangue.domains.CalculateIMC;
 import br.com.wktechnology.agenciabancosangue.domains.FindCandidates;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.*;
 import br.com.wktechnology.agenciabancosangue.usecases.CalculateIMCUseCase;
+import br.com.wktechnology.agenciabancosangue.usecases.CreatePersonUseCase;
 import br.com.wktechnology.agenciabancosangue.usecases.FindCandidatesPerStateUseCase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,14 +28,31 @@ import java.util.List;
 public class PersonController {
 
     @Autowired
+    private CreatePersonUseCase createPersonUseCase;
+
+    @Autowired
     private FindCandidatesPerStateUseCase findCandidatesPerStateUseCase;
 
     @Autowired
     private CalculateIMCUseCase calculateIMCUseCase;
 
+    @ApiOperation(value = "Resource to Create candidates", response = CreatePersonResponseJson.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "CREATED"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 422, message = "Unprocessable Entity"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @Validated
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping
+    public void create(
+            final @RequestBody() @Valid List<CreatePersonRequestJson> listCreatePersonRequestJson) {
+        listCreatePersonRequestJson.forEach(this.createPersonUseCase::create);
+    }
+
     @ApiOperation(value = "Resource to Find number of Candidates per State", response = FindCandidatesResponseJson.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "FOUNDED"),
+            @ApiResponse(code = 200, message = "FOUNDED"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 422, message = "Unprocessable Entity"),
             @ApiResponse(code = 500, message = "Internal Server Error")})
@@ -51,9 +69,9 @@ public class PersonController {
                 .build();
     }
 
-    @ApiOperation(value = "Resource to calculate IMC of ten to ten years", response = FindCandidatesResponseJson.class)
+    @ApiOperation(value = "Resource to calculate IMC of ten to ten years", response = CalculateIMCResponseJson.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "FOUNDED"),
+            @ApiResponse(code = 200, message = "FOUNDED"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 422, message = "Unprocessable Entity"),
             @ApiResponse(code = 500, message = "Internal Server Error")})

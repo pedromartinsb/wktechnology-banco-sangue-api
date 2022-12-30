@@ -2,10 +2,10 @@ package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -16,11 +16,11 @@ public class CreatePersonRequestJson {
     @NotEmpty(message = "Campo nome é obrigatório.")
     private String name;
 
-    @Length(max = 14)
+    @Size(max = 14)
     @NotEmpty(message = "Campo cpf é obrigatório.")
     private String cpf;
 
-    @Length(max = 12)
+    @Size(max = 12)
     @NotEmpty(message = "Campo rg é obrigatório.")
     private String rg;
 
@@ -31,7 +31,7 @@ public class CreatePersonRequestJson {
     @JsonProperty("idade")
     private Integer age;
 
-    @Length(max = 9)
+    @Size(max = 9)
     @JsonProperty("sexo")
     @NotEmpty(message = "Campo sexo é obrigatório.")
     private String gender;
@@ -48,7 +48,7 @@ public class CreatePersonRequestJson {
     @NotEmpty(message = "Campo email é obrigatório.")
     private String email;
 
-    @Length(max = 10)
+    @Size(max = 10)
     @NotEmpty(message = "Campo cep é obrigatório.")
     private String cep;
 
@@ -56,10 +56,8 @@ public class CreatePersonRequestJson {
     @NotEmpty(message = "Campo endereco é obrigatório.")
     private String street;
 
-    @Length(max = 3)
     @JsonProperty("numero")
-    @NotEmpty(message = "Campo numero é obrigatório.")
-    private Long number;
+    private Integer number;
 
     @JsonProperty("bairro")
     @NotEmpty(message = "Campo bairro é obrigatório.")
@@ -69,31 +67,31 @@ public class CreatePersonRequestJson {
     @NotEmpty(message = "Campo cidade é obrigatório.")
     private String city;
 
-    @Length(max = 2)
+    @Size(max = 2)
     @JsonProperty("estado")
     @NotEmpty(message = "Campo estado é obrigatório.")
     private String state;
 
-    @Length(max = 16)
-    @JsonProperty("telefone")
+    @Size(max = 16)
+    @JsonProperty("telefone_fixo")
     @NotEmpty(message = "Campo telefone é obrigatório.")
     private String phone;
 
-    @Length(max = 17)
+    @Size(max = 17)
     @JsonProperty("celular")
     @NotEmpty(message = "Campo celular é obrigatório.")
     private String cellphone;
 
     @JsonProperty("altura")
-    @NotEmpty(message = "Campo altura é obrigatório.")
     private Double height;
 
     @JsonProperty("peso")
-    @NotEmpty(message = "Campo peso é obrigatório.")
-    private Double weight;
+    private Integer weight;
 
-    @Length(max = 2)
+    @Size(max = 3)
     @JsonProperty("tipo_sanguineo")
     @NotEmpty(message = "Campo tipo_sanguineo é obrigatório.")
     private String bloodType;
+
+    private Double imc;
 }

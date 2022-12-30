@@ -18,6 +18,9 @@ public class CalculateIMCUseCase {
     @Autowired
     private FindAgeByBirthDateUseCase findAgeByBirthDateUseCase;
 
+    @Autowired
+    private SaveIMCForPerson saveIMCForPerson;
+
     public List<CalculateIMC> calculate(final CalculateIMCRequestJson calculateIMCRequestJson) {
         log.info("calculateIMCRequestJson: {}", calculateIMCRequestJson);
         List<Integer> ages = getAges(calculateIMCRequestJson);
@@ -69,6 +72,10 @@ public class CalculateIMCUseCase {
                 var weight = calculateIMCRequestJson.getPersons().get(index).getWeight();
                 var height = calculateIMCRequestJson.getPersons().get(index).getHeight();
                 var imc = weight / (height * height);
+
+                //TODO: salvar o imc da pessoa no banco de dados
+                this.saveIMCForPerson.update(person, imc);
+
                 imcs.add(imc);
             }
         }

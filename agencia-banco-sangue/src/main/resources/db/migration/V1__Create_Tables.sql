@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS person (
     cellphone varchar(17) DEFAULT NULL,
     height double DEFAULT NULL,
     weight double DEFAULT NULL,
-    blood_type varchar(2) DEFAULT NULL,
+    blood_type varchar(3) DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY UK_cpf (cpf),
     UNIQUE KEY UK_rg (rg)
