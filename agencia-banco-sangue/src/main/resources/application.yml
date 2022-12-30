@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: blood-center
+    name: 'blood-center'
   datasource:
     driverClassName: 'com.mysql.cj.jdbc.Driver'
     url: 'jdbc:mysql://localhost:3306/blood_center?useTimezone=true&serverTimezone=UTC&useSSL=false'
