@@ -1,6 +1,6 @@
 package br.com.wktechnology.agenciabancosangue.usecases;
 
-import br.com.wktechnology.agenciabancosangue.domains.CalculateIMC;
+import br.com.wktechnology.agenciabancosangue.domains.IMC;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CalculateIMCRequestJson;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CreatePersonRequestJson;
 import lombok.extern.slf4j.Slf4j;
@@ -21,20 +21,20 @@ public class CalculateIMCUseCase {
     @Autowired
     private UpdateIMCForPerson updateIMCForPerson;
 
-    public List<CalculateIMC> calculate(final CalculateIMCRequestJson calculateIMCRequestJson) {
+    public List<IMC> calculate(final CalculateIMCRequestJson calculateIMCRequestJson) {
         log.info("calculateIMCRequestJson: {}", calculateIMCRequestJson);
         List<Integer> ages = getAges(calculateIMCRequestJson);
         var largest = getLargest(ages);
         List<Integer> intervals = getIntervals(largest);
 
-        List<CalculateIMC> imcs = new ArrayList<>();
+        List<IMC> imcs = new ArrayList<>();
         getCalculateIMC(intervals, imcs, calculateIMCRequestJson);
         return imcs;
     }
 
     private void getCalculateIMC(
             final List<Integer> intervals,
-            final List<CalculateIMC> imcs,
+            final List<IMC> imcs,
             final CalculateIMCRequestJson calculateIMCRequestJson) {
         for (int i = 0; i < intervals.size(); i++) {
             if (i != intervals.size()-1) {
@@ -44,18 +44,18 @@ public class CalculateIMCUseCase {
     }
 
     private void createCalculateIMCInstance(
-            final List<CalculateIMC> imcs,
+            final List<IMC> imcs,
             final Integer smallerGap,
             final Integer greaterGap,
             final int index,
             final CalculateIMCRequestJson calculateIMCRequestJson) {
         var imc = getIMCPerInterval(calculateIMCRequestJson, smallerGap, greaterGap, index);
 
-        CalculateIMC calculateIMC = new CalculateIMC();
-        calculateIMC.setImc(imc);
-        calculateIMC.setSmallerGap(smallerGap);
-        calculateIMC.setGraterGap(greaterGap);
-        imcs.add(calculateIMC);
+        IMC IMC = new IMC();
+        IMC.setImc(imc);
+        IMC.setSmallerGap(smallerGap);
+        IMC.setGraterGap(greaterGap);
+        imcs.add(IMC);
     }
 
     private Double getIMCPerInterval(

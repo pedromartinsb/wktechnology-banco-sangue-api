@@ -1,7 +1,7 @@
 package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person;
 
-import br.com.wktechnology.agenciabancosangue.domains.CalculateIMC;
-import br.com.wktechnology.agenciabancosangue.domains.FindCandidates;
+import br.com.wktechnology.agenciabancosangue.domains.IMC;
+import br.com.wktechnology.agenciabancosangue.domains.Candidates;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.*;
 import br.com.wktechnology.agenciabancosangue.usecases.CalculateIMCUseCase;
 import br.com.wktechnology.agenciabancosangue.usecases.CreatePersonUseCase;
@@ -60,10 +60,10 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("find-candidates")
     public FindCandidatesResponseJson find() {
-        List<FindCandidates> findCandidates = this.findCandidatesPerStateUseCase.find();
+        List<Candidates> candidates = this.findCandidatesPerStateUseCase.find();
         return FindCandidatesResponseJson
                 .builder()
-                .persons(findCandidates)
+                .persons(candidates)
                 .build();
     }
 
@@ -79,10 +79,10 @@ public class PersonController {
     public CalculateIMCResponseJson calculateIMC(
             final @RequestBody() @Valid CalculateIMCRequestJson calculateIMCRequestJson) {
         log.info("calculateIMCRequestJson: {}", calculateIMCRequestJson);
-        List<CalculateIMC> calculateIMC = this.calculateIMCUseCase.calculate(calculateIMCRequestJson);
+        List<IMC> IMC = this.calculateIMCUseCase.calculate(calculateIMCRequestJson);
         return CalculateIMCResponseJson
                 .builder()
-                .imc(calculateIMC)
+                .imc(IMC)
                 .build();
     }
 }

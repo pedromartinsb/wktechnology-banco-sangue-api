@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class FindCandidates {
+public class Candidates {
 
     @JsonProperty("estado")
     private States state;

@@ -1,6 +1,6 @@
 package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json;
 
-import br.com.wktechnology.agenciabancosangue.domains.FindCandidates;
+import br.com.wktechnology.agenciabancosangue.domains.Candidates;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,5 +14,5 @@ import java.util.List;
 public class FindCandidatesResponseJson {
 
     @JsonProperty("pessoas")
-    private List<FindCandidates> persons;
+    private List<Candidates> persons;
 }
