@@ -36,7 +36,8 @@ public class PersonController {
     @Autowired
     private CalculateIMCUseCase calculateIMCUseCase;
 
-    @ApiOperation(value = "Resource to Create candidates", response = CreatePersonResponseJson.class)
+    @ApiOperation(value = "Resource to Create candidates",
+            response = CreatePersonResponseJson.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "CREATED"),
             @ApiResponse(code = 400, message = "Bad Request"),
@@ -50,7 +51,8 @@ public class PersonController {
         listCreatePersonRequestJson.forEach(this.createPersonUseCase::create);
     }
 
-    @ApiOperation(value = "Resource to Find number of Candidates per State", response = FindCandidatesResponseJson.class)
+    @ApiOperation(value = "Resource to Find number of Candidates per State",
+            response = FindCandidatesResponseJson.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "FOUNDED"),
             @ApiResponse(code = 400, message = "Bad Request"),
@@ -67,7 +69,8 @@ public class PersonController {
                 .build();
     }
 
-    @ApiOperation(value = "Resource to calculate IMC of ten to ten years", response = CalculateIMCResponseJson.class)
+    @ApiOperation(value = "Resource to calculate IMC of ten to ten years",
+            response = CalculateIMCResponseJson.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "FOUNDED"),
             @ApiResponse(code = 400, message = "Bad Request"),
@@ -75,14 +78,12 @@ public class PersonController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
     @Validated
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("calculate-imc")
-    public CalculateIMCResponseJson calculateIMC(
-            final @RequestBody() @Valid CalculateIMCRequestJson calculateIMCRequestJson) {
-        log.info("calculateIMCRequestJson: {}", calculateIMCRequestJson);
-        List<IMC> IMC = this.calculateIMCUseCase.calculate(calculateIMCRequestJson);
+    @GetMapping("calculate-imc")
+    public CalculateIMCResponseJson calculateIMC() {
+        List<IMC> imcList = this.calculateIMCUseCase.calculate();
         return CalculateIMCResponseJson
                 .builder()
-                .imc(IMC)
+                .imcs(imcList)
                 .build();
     }
 }

@@ -12,5 +12,5 @@ import java.util.List;
 @ToString
 public class CalculateIMCResponseJson {
 
-    private List<IMC> imc;
+    private List<IMC> imcs;
 }

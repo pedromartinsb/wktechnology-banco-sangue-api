@@ -1,5 +1,6 @@
 package br.com.wktechnology.agenciabancosangue.domains;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,9 @@ public class Person {
 
     @Column(name = "birth_date")
     private String birthDate;
+
+    @JsonProperty("idade")
+    private Integer age;
 
     @Size(max = 9, message = "O campo deve conter no máximo 9 caracteres.")
     private String gender;

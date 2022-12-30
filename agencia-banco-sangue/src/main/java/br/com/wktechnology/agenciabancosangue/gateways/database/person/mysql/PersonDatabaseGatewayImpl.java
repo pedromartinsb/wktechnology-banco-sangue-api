@@ -32,9 +32,9 @@ public class PersonDatabaseGatewayImpl implements PersonDatabaseGateway {
     }
 
     @Override
-    public Person update(Person person) {
+    public void update(Person person) {
         try {
-            return this.personRepository.save(person);
+            this.personRepository.save(person);
         } catch (Exception e) {
             log.error("error: {}", e.getMessage());
             throw new UpdatePersonDatabaseException();
