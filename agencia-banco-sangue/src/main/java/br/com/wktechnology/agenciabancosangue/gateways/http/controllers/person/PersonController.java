@@ -6,6 +6,7 @@ import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.j
 import br.com.wktechnology.agenciabancosangue.usecases.CalculateIMCUseCase;
 import br.com.wktechnology.agenciabancosangue.usecases.CreatePersonUseCase;
 import br.com.wktechnology.agenciabancosangue.usecases.FindCandidatesPerStateUseCase;
+import br.com.wktechnology.agenciabancosangue.usecases.GetObesePercentageUseCase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -36,6 +37,9 @@ public class PersonController {
     @Autowired
     private CalculateIMCUseCase calculateIMCUseCase;
 
+    @Autowired
+    private GetObesePercentageUseCase getObesePercentageUseCase;
+
     @ApiOperation(value = "Resource to Create candidates",
             response = CreatePersonResponseJson.class)
     @ApiResponses(value = {
@@ -61,7 +65,7 @@ public class PersonController {
     @Validated
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("find-candidates")
-    public FindCandidatesResponseJson find() {
+    public FindCandidatesResponseJson findCandidatesPerState() {
         List<Candidates> candidates = this.findCandidatesPerStateUseCase.find();
         return FindCandidatesResponseJson
                 .builder()
@@ -85,5 +89,19 @@ public class PersonController {
                 .builder()
                 .imcs(imcList)
                 .build();
+    }
+
+    @ApiOperation(value = "Resource to get obese percentage per gender",
+            response = ObesePercentageResponseJson.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "FOUNDED"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 422, message = "Unprocessable Entity"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @Validated
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("obese-percentage")
+    public ObesePercentageResponseJson getObesePercentage() {
+        return this.getObesePercentageUseCase.get();
     }
 }
