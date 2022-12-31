@@ -3,10 +3,7 @@ package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person;
 import br.com.wktechnology.agenciabancosangue.domains.IMC;
 import br.com.wktechnology.agenciabancosangue.domains.Candidates;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.*;
-import br.com.wktechnology.agenciabancosangue.usecases.CalculateIMCUseCase;
-import br.com.wktechnology.agenciabancosangue.usecases.CreatePersonUseCase;
-import br.com.wktechnology.agenciabancosangue.usecases.FindCandidatesPerStateUseCase;
-import br.com.wktechnology.agenciabancosangue.usecases.GetObesePercentageUseCase;
+import br.com.wktechnology.agenciabancosangue.usecases.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -39,6 +36,9 @@ public class PersonController {
 
     @Autowired
     private GetObesePercentageUseCase getObesePercentageUseCase;
+
+    @Autowired
+    private BloodTypeAgeAverageUseCase bloodTypeAgeAverageUseCase;
 
     @ApiOperation(value = "Resource to Create candidates",
             response = CreatePersonResponseJson.class)
@@ -103,5 +103,19 @@ public class PersonController {
     @GetMapping("obese-percentage")
     public ObesePercentageResponseJson getObesePercentage() {
         return this.getObesePercentageUseCase.get();
+    }
+
+    @ApiOperation(value = "Resource to get obese percentage per gender",
+            response = ObesePercentageResponseJson.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "FOUNDED"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 422, message = "Unprocessable Entity"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @Validated
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("blood-type-age-average")
+    public List<BloodTypeAgeAverageResponseJson> getBloodTypeAgeAverage() {
+        return this.bloodTypeAgeAverageUseCase.get();
     }
 }
