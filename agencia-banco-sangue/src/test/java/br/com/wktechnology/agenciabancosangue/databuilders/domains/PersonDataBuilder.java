@@ -5,13 +5,21 @@ import br.com.wktechnology.agenciabancosangue.domains.Person;
 
 public class PersonDataBuilder extends DataBuilderBase<Person> {
     private Long id;
+    private Double imc;
 
     public PersonDataBuilder() {
         this.id = 1L;
+        this.imc = null;
     }
 
     public PersonDataBuilder toCreate() {
         this.id = null;
+        return this;
+    }
+
+    public PersonDataBuilder toUpdate() {
+        this.id = null;
+        this.imc = 81.0;
         return this;
     }
 
@@ -38,6 +46,7 @@ public class PersonDataBuilder extends DataBuilderBase<Person> {
                 .height(1.83)
                 .weight(81)
                 .bloodType(this.faker.dog().name())
+                .imc(81.0)
                 .build();
     }
 }
