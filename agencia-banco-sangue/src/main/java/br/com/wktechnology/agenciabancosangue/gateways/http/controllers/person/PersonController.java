@@ -108,7 +108,7 @@ public class PersonController {
         return this.getObesePercentageUseCase.get();
     }
 
-    @ApiOperation(value = "Resource to get obese percentage per gender",
+    @ApiOperation(value = "Resource to get an average age by blood type",
             response = ObesePercentageResponseJson.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "FOUNDED"),
