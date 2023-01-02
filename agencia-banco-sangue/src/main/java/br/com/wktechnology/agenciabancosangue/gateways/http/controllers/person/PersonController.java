@@ -108,8 +108,7 @@ public class PersonController {
         return this.getObesePercentageUseCase.get();
     }
 
-    @ApiOperation(value = "Resource to get an average age by blood type",
-            response = ObesePercentageResponseJson.class)
+    @ApiOperation(value = "Resource to get an average age by blood type")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "FOUNDED"),
             @ApiResponse(code = 400, message = "Bad Request"),
@@ -123,7 +122,7 @@ public class PersonController {
     }
 
     @ApiOperation(value = "Resource to get possible donations by receptor blood type",
-            response = ObesePercentageResponseJson.class)
+            response = PossibleDonationsResponseJson.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "FOUNDED"),
             @ApiResponse(code = 400, message = "Bad Request"),
