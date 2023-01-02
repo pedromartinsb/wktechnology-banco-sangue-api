@@ -69,6 +69,14 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- for Faker Test support -->
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- for Swagger support -->
 		<dependency>
 			<groupId>io.springfox</groupId>
