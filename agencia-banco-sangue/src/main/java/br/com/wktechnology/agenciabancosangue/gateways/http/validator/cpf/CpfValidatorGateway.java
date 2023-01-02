@@ -1,4 +1,4 @@
-package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.validator.cpf;
+package br.com.wktechnology.agenciabancosangue.gateways.http.validator.cpf;
 
 import br.com.wktechnology.agenciabancosangue.domains.enums.PersonCheck;
 

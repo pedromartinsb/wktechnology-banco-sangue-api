@@ -1,6 +1,6 @@
-package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.validator.cpf.feign.client;
+package br.com.wktechnology.agenciabancosangue.gateways.http.validator.cpf.feign.client;
 
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.validator.cpf.feign.client.json.ValidateCpfEnableToCreateResponseJson;
+import br.com.wktechnology.agenciabancosangue.gateways.http.validator.cpf.feign.client.json.ValidateCpfEnableToCreateResponseJson;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,4 +1,4 @@
-package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.validator.cpf.feign.client.json;
+package br.com.wktechnology.agenciabancosangue.gateways.http.validator.cpf.feign.client.json;
 
 import lombok.*;
 

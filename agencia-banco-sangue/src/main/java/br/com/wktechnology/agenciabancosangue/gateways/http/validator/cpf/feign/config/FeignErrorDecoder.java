@@ -1,4 +1,4 @@
-package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.validator.cpf.feign.config;
+package br.com.wktechnology.agenciabancosangue.gateways.http.validator.cpf.feign.config;
 
 import br.com.wktechnology.agenciabancosangue.gateways.exceptions.CpfNotFoundException;
 import br.com.wktechnology.agenciabancosangue.gateways.exceptions.FeignClientException;

@@ -1,9 +1,9 @@
-package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.validator.cpf.feign;
+package br.com.wktechnology.agenciabancosangue.gateways.http.validator.cpf.feign;
 
 import br.com.wktechnology.agenciabancosangue.domains.enums.PersonCheck;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.validator.cpf.CpfValidatorGateway;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.validator.cpf.feign.client.CpfValidatorFeignClient;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.validator.cpf.feign.client.json.ValidateCpfEnableToCreateResponseJson;
+import br.com.wktechnology.agenciabancosangue.gateways.http.validator.cpf.CpfValidatorGateway;
+import br.com.wktechnology.agenciabancosangue.gateways.http.validator.cpf.feign.client.CpfValidatorFeignClient;
+import br.com.wktechnology.agenciabancosangue.gateways.http.validator.cpf.feign.client.json.ValidateCpfEnableToCreateResponseJson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class CpfValidatorGatewayImpl implements CpfValidatorGateway {
     @Override
     public PersonCheck validateCpfToEnableToCreate(String cpf) {
         log.info("cpf: {}", cpf);
-        final ValidateCpfEnableToCreateResponseJson response = 
+        final ValidateCpfEnableToCreateResponseJson response =
             this.cpfValidatorFeignClient.validateCpfEnableToCreate(cpf);
 
         if (response.getStatus().equals(ABLE_TO_CREATE))
