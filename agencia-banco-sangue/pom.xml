@@ -55,6 +55,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<!-- for Feign Client support -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
 		<!-- for Lombok support -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
