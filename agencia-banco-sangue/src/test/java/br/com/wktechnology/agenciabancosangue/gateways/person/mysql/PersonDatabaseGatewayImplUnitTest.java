@@ -5,12 +5,15 @@ import br.com.wktechnology.agenciabancosangue.domains.Person;
 import br.com.wktechnology.agenciabancosangue.gateways.database.person.mysql.PersonDatabaseGatewayImpl;
 import br.com.wktechnology.agenciabancosangue.gateways.database.person.mysql.repository.PersonRepository;
 import br.com.wktechnology.agenciabancosangue.gateways.exceptions.CreatePersonDatabaseException;
+import br.com.wktechnology.agenciabancosangue.gateways.exceptions.FindPersonByCpfDatabaseException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.verification.VerificationModeFactory;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -74,6 +77,35 @@ public class PersonDatabaseGatewayImplUnitTest extends BaseTest {
                 assertThrows(CreatePersonDatabaseException.class, () -> this.personDatabaseGateway.create(personToCreate));
         assertEquals(error.getCode(), "wktechnology.agenciabancosangue.error.create");
         assertEquals(error.getMessage(), "Error to create Person.");
+    }
+
+    @Test
+    @DisplayName("Should find by CPF successful")
+    public void givenCPF_whenFind_thenReturnPerson() {
+        // given
+        final Person personFounded = this.domainsDataBuilder.getPersonDataBuilder().build();
+        final String cpf = this.faker.internet().uuid();
+        when(this.personRepository.findByCpf(cpf)).thenReturn(Optional.of(personFounded));
+
+        // when
+        final Optional<Person> response = this.personDatabaseGateway.findByCpf(cpf);
+
+        // then
+        assertResponse(personFounded, response.get());
+    }
+
+    @Test
+    @DisplayName("Should find by CPF failed")
+    public void givenCPF_whenFind_thenReturnError() {
+        // given
+        final String cpf = this.faker.internet().uuid();
+        doThrow(new RuntimeException()).when(this.personRepository).findByCpf(cpf);
+
+        // then
+        final FindPersonByCpfDatabaseException error =
+                assertThrows(FindPersonByCpfDatabaseException.class, () -> this.personDatabaseGateway.findByCpf(cpf));
+        assertEquals(error.getCode(), "wktechnology.agenciabancosangue.database.error.findbycpf");
+        assertEquals(error.getMessage(), "Error to find Person by cpf.");
     }
 
     private void assertCaptured(final Person personToCreate, final Person personCaptured) {
