@@ -43,3 +43,8 @@ flyway:
 
 baseurl:
   v1: 'blood-center/v1'
+
+feign:
+  cpfValidator:
+    url: 'https://user-info.herokuapp.com/'
+    name: 'usersApi'
