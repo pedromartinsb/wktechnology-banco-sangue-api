@@ -40,6 +40,9 @@ public class PersonController {
     @Autowired
     private BloodTypeAgeAverageUseCase bloodTypeAgeAverageUseCase;
 
+    @Autowired
+    private PossibleDonationsByReceptorBloodTypeUseCase possibleDonationsByReceptorBloodTypeUseCase;
+
     @ApiOperation(value = "Resource to Create candidates",
             response = CreatePersonResponseJson.class)
     @ApiResponses(value = {
@@ -117,5 +120,19 @@ public class PersonController {
     @GetMapping("blood-type-age-average")
     public List<BloodTypeAgeAverageResponseJson> getBloodTypeAgeAverage() {
         return this.bloodTypeAgeAverageUseCase.get();
+    }
+
+    @ApiOperation(value = "Resource to get possible donations by receptor blood type",
+            response = ObesePercentageResponseJson.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "FOUNDED"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 422, message = "Unprocessable Entity"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @Validated
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("possible-donations")
+    public PossibleDonationsResponseJson getPossibleDonationsByReceptorBloodType() {
+        return this.possibleDonationsByReceptorBloodTypeUseCase.get();
     }
 }
