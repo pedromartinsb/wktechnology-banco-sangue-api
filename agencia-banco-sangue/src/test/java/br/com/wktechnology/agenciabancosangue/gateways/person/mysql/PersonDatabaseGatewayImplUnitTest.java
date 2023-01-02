@@ -4,6 +4,7 @@ import br.com.wktechnology.agenciabancosangue.databuilders.utils.BaseTest;
 import br.com.wktechnology.agenciabancosangue.domains.Person;
 import br.com.wktechnology.agenciabancosangue.gateways.database.person.mysql.PersonDatabaseGatewayImpl;
 import br.com.wktechnology.agenciabancosangue.gateways.database.person.mysql.repository.PersonRepository;
+import br.com.wktechnology.agenciabancosangue.gateways.exceptions.CreatePersonDatabaseException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -11,11 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.verification.VerificationModeFactory;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class PersonDatabaseGatewayImplUnitTest extends BaseTest {
 
@@ -61,6 +60,20 @@ public class PersonDatabaseGatewayImplUnitTest extends BaseTest {
         verify(this.personRepository, VerificationModeFactory.times(1))
                 .save(personArgumentCaptor.capture());
         assertEquals(personUpdated.getImc(), response.getImc());
+    }
+
+    @Test
+    @DisplayName("Should by create Person error database")
+    public void givenPersonToCreate_whenSave_ReturnErrorDatabase() {
+        // given
+        final Person personToCreate = this.domainsDataBuilder.getPersonDataBuilder().toCreate().build();
+        doThrow(new RuntimeException()).when(this.personRepository).save(personToCreate);
+
+        // then
+        final CreatePersonDatabaseException error =
+                assertThrows(CreatePersonDatabaseException.class, () -> this.personDatabaseGateway.create(personToCreate));
+        assertEquals(error.getCode(), "wktechnology.agenciabancosangue.error.create");
+        assertEquals(error.getMessage(), "Error to create Person.");
     }
 
     private void assertCaptured(final Person personToCreate, final Person personCaptured) {
