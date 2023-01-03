@@ -2,11 +2,15 @@ package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person;
 
 import br.com.wktechnology.agenciabancosangue.domains.Candidates;
 import br.com.wktechnology.agenciabancosangue.domains.IMC;
+import br.com.wktechnology.agenciabancosangue.domains.ObesePercentage;
+import br.com.wktechnology.agenciabancosangue.domains.enums.Gender;
 import br.com.wktechnology.agenciabancosangue.domains.enums.States;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CalculateIMCResponseJson;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.FindCandidatesResponseJson;
+import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.ObesePercentageResponseJson;
 import br.com.wktechnology.agenciabancosangue.usecases.CalculateIMCUseCase;
 import br.com.wktechnology.agenciabancosangue.usecases.FindCandidatesPerStateUseCase;
+import br.com.wktechnology.agenciabancosangue.usecases.GetObesePercentageUseCase;
 import br.com.wktechnology.agenciabancosangue.utils.BaseTest;
 import br.com.wktechnology.agenciabancosangue.domains.Person;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CreatePersonRequestJson;
@@ -38,6 +42,9 @@ public class PersonControllerUnitTest extends BaseTest {
 
     @Mock
     private CalculateIMCUseCase calculateIMCUseCase;
+
+    @Mock
+    private GetObesePercentageUseCase getObesePercentageUseCase;
 
     @Test
     @DisplayName("Should create Person with success")
@@ -99,6 +106,29 @@ public class PersonControllerUnitTest extends BaseTest {
         // then
         verify(this.calculateIMCUseCase,VerificationModeFactory.times(1)).calculate();
         assertEquals(calculateIMCResponseJson.getImcs(), response.getImcs());
+    }
+
+    @Test
+    @DisplayName("Should by return obesity percentage")
+    public void givenAny_whenObesePercentage_thenReturnListOfObsess() {
+        // given
+        final List<ObesePercentage> obesePercentageList = new ArrayList<>();
+        ObesePercentage obesePercentage = new ObesePercentage();
+        obesePercentage.setPercentage(17.5F);
+        obesePercentage.setGender(Gender.MASCULINO);
+        obesePercentageList.add(obesePercentage);
+        final ObesePercentageResponseJson obesePercentageResponseJson = ObesePercentageResponseJson
+                .builder()
+                .obesePercentages(obesePercentageList)
+                .build();
+        when(this.getObesePercentageUseCase.get()).thenReturn(obesePercentageResponseJson);
+
+        // when
+        final ObesePercentageResponseJson response = this.personController.getObesePercentage();
+
+        // then
+        verify(this.getObesePercentageUseCase,VerificationModeFactory.times(1)).get();
+        assertEquals(obesePercentageResponseJson.getObesePercentages(), response.getObesePercentages());
     }
 
     private CreatePersonRequestJson getCreatePersonRequestJson() {
