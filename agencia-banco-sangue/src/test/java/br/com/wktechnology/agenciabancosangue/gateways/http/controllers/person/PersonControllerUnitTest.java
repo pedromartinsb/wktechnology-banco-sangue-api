@@ -1,5 +1,9 @@
 package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person;
 
+import br.com.wktechnology.agenciabancosangue.domains.Candidates;
+import br.com.wktechnology.agenciabancosangue.domains.enums.States;
+import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.FindCandidatesResponseJson;
+import br.com.wktechnology.agenciabancosangue.usecases.FindCandidatesPerStateUseCase;
 import br.com.wktechnology.agenciabancosangue.utils.BaseTest;
 import br.com.wktechnology.agenciabancosangue.domains.Person;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CreatePersonRequestJson;
@@ -13,6 +17,7 @@ import org.mockito.internal.verification.VerificationModeFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,6 +29,9 @@ public class PersonControllerUnitTest extends BaseTest {
 
     @Mock
     private CreatePersonUseCase createPersonUseCase;
+
+    @Mock
+    private FindCandidatesPerStateUseCase findCandidatesPerStateUseCase;
 
     @Test
     @DisplayName("Should create Person with success")
@@ -41,6 +49,29 @@ public class PersonControllerUnitTest extends BaseTest {
         // then
         verify(this.createPersonUseCase,
                 VerificationModeFactory.times(1)).create(createPersonRequestJson);
+    }
+
+    @Test
+    @DisplayName("Should by return number of candidates per state")
+    public void givenAny_whenFindCandidates_thenReturnListOfCandidatesPerState() {
+        // given
+        final List<Candidates> candidates = new ArrayList<>();
+        final Candidates candidatesFoundedAC = Candidates.builder().number(10).state(States.AC).build();
+        final Candidates candidatesFoundedAL = Candidates.builder().number(21).state(States.AL).build();
+        candidates.add(candidatesFoundedAC);
+        candidates.add(candidatesFoundedAL);
+        final FindCandidatesResponseJson findCandidatesResponseJson = FindCandidatesResponseJson
+                .builder()
+                .persons(candidates)
+                .build();
+        when(this.findCandidatesPerStateUseCase.find()).thenReturn(candidates);
+
+        // when
+        final FindCandidatesResponseJson response = this.personController.findCandidatesPerState();
+
+        // then
+        verify(this.findCandidatesPerStateUseCase,VerificationModeFactory.times(1)).find();
+        assertEquals(findCandidatesResponseJson.getPersons(), response.getPersons());
     }
 
     private CreatePersonRequestJson getCreatePersonRequestJson() {
