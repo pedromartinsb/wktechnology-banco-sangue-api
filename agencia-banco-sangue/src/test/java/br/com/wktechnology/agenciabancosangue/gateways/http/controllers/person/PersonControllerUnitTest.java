@@ -1,14 +1,11 @@
 package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person;
 
-import br.com.wktechnology.agenciabancosangue.domains.Candidates;
-import br.com.wktechnology.agenciabancosangue.domains.IMC;
-import br.com.wktechnology.agenciabancosangue.domains.ObesePercentage;
+import br.com.wktechnology.agenciabancosangue.domains.*;
 import br.com.wktechnology.agenciabancosangue.domains.enums.Gender;
 import br.com.wktechnology.agenciabancosangue.domains.enums.States;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.*;
 import br.com.wktechnology.agenciabancosangue.usecases.*;
 import br.com.wktechnology.agenciabancosangue.utils.BaseTest;
-import br.com.wktechnology.agenciabancosangue.domains.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -42,6 +39,9 @@ public class PersonControllerUnitTest extends BaseTest {
 
     @Mock
     private BloodTypeAgeAverageUseCase bloodTypeAgeAverageUseCase;
+
+    @Mock
+    private PossibleDonationsByReceptorBloodTypeUseCase possibleDonationsByReceptorBloodTypeUseCase;
 
     @Test
     @DisplayName("Should create Person with success")
@@ -148,6 +148,33 @@ public class PersonControllerUnitTest extends BaseTest {
         verify(this.bloodTypeAgeAverageUseCase,VerificationModeFactory.times(1)).get();
         assertEquals(averageResponseJsonList.size(), response.size());
         assertEquals(averageResponseJsonList.isEmpty(), Boolean.FALSE);
+    }
+
+    @Test
+    @DisplayName("Should by return possible donations by receptor blood type")
+    public void givenAny_whenPossibleDonationsByReceptorBloodType_thenReturnList() {
+        // given
+        final List<PossibleDonation> possibleDonationList = new ArrayList<>();
+        PossibleDonation possibleDonation = PossibleDonation
+                .builder()
+                .bloodType("O-")
+                .quantity(10)
+                .personList(new ArrayList<>())
+                .build();
+        possibleDonationList.add(possibleDonation);
+        final PossibleDonationsResponseJson possibleDonationsResponseJson = PossibleDonationsResponseJson
+                .builder()
+                .possibleDonations(possibleDonationList)
+                .build();
+        when(this.possibleDonationsByReceptorBloodTypeUseCase.get()).thenReturn(possibleDonationsResponseJson);
+
+        // when
+        final PossibleDonationsResponseJson response = this.personController.getPossibleDonationsByReceptorBloodType();
+
+        // then
+        verify(this.possibleDonationsByReceptorBloodTypeUseCase,VerificationModeFactory.times(1)).get();
+        assertEquals(possibleDonationsResponseJson.getPossibleDonations(), response.getPossibleDonations());
+        assertEquals(possibleDonationList.isEmpty(), Boolean.FALSE);
     }
 
     private CreatePersonRequestJson getCreatePersonRequestJson() {
