@@ -5,16 +5,10 @@ import br.com.wktechnology.agenciabancosangue.domains.IMC;
 import br.com.wktechnology.agenciabancosangue.domains.ObesePercentage;
 import br.com.wktechnology.agenciabancosangue.domains.enums.Gender;
 import br.com.wktechnology.agenciabancosangue.domains.enums.States;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CalculateIMCResponseJson;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.FindCandidatesResponseJson;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.ObesePercentageResponseJson;
-import br.com.wktechnology.agenciabancosangue.usecases.CalculateIMCUseCase;
-import br.com.wktechnology.agenciabancosangue.usecases.FindCandidatesPerStateUseCase;
-import br.com.wktechnology.agenciabancosangue.usecases.GetObesePercentageUseCase;
+import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.*;
+import br.com.wktechnology.agenciabancosangue.usecases.*;
 import br.com.wktechnology.agenciabancosangue.utils.BaseTest;
 import br.com.wktechnology.agenciabancosangue.domains.Person;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CreatePersonRequestJson;
-import br.com.wktechnology.agenciabancosangue.usecases.CreatePersonUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -45,6 +39,9 @@ public class PersonControllerUnitTest extends BaseTest {
 
     @Mock
     private GetObesePercentageUseCase getObesePercentageUseCase;
+
+    @Mock
+    private BloodTypeAgeAverageUseCase bloodTypeAgeAverageUseCase;
 
     @Test
     @DisplayName("Should create Person with success")
@@ -129,6 +126,28 @@ public class PersonControllerUnitTest extends BaseTest {
         // then
         verify(this.getObesePercentageUseCase,VerificationModeFactory.times(1)).get();
         assertEquals(obesePercentageResponseJson.getObesePercentages(), response.getObesePercentages());
+    }
+
+    @Test
+    @DisplayName("Should by return an average age by blood type")
+    public void givenAny_whenBloodTypeAgeAverage_thenReturnListOfBloodTypeAgeAverage() {
+        // given
+        final List<BloodTypeAgeAverageResponseJson> averageResponseJsonList = new ArrayList<>();
+        final BloodTypeAgeAverageResponseJson bloodTypeAgeAverageResponseJson = BloodTypeAgeAverageResponseJson
+                .builder()
+                .average(14)
+                .bloodType("A+")
+                .build();
+        averageResponseJsonList.add(bloodTypeAgeAverageResponseJson);
+        when(this.bloodTypeAgeAverageUseCase.get()).thenReturn(averageResponseJsonList);
+
+        // when
+        final List<BloodTypeAgeAverageResponseJson> response = this.personController.getBloodTypeAgeAverage();
+
+        // then
+        verify(this.bloodTypeAgeAverageUseCase,VerificationModeFactory.times(1)).get();
+        assertEquals(averageResponseJsonList.size(), response.size());
+        assertEquals(averageResponseJsonList.isEmpty(), Boolean.FALSE);
     }
 
     private CreatePersonRequestJson getCreatePersonRequestJson() {
