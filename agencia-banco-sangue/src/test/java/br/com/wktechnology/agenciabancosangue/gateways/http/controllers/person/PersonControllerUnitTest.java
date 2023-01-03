@@ -1,8 +1,11 @@
 package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person;
 
 import br.com.wktechnology.agenciabancosangue.domains.Candidates;
+import br.com.wktechnology.agenciabancosangue.domains.IMC;
 import br.com.wktechnology.agenciabancosangue.domains.enums.States;
+import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CalculateIMCResponseJson;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.FindCandidatesResponseJson;
+import br.com.wktechnology.agenciabancosangue.usecases.CalculateIMCUseCase;
 import br.com.wktechnology.agenciabancosangue.usecases.FindCandidatesPerStateUseCase;
 import br.com.wktechnology.agenciabancosangue.utils.BaseTest;
 import br.com.wktechnology.agenciabancosangue.domains.Person;
@@ -32,6 +35,9 @@ public class PersonControllerUnitTest extends BaseTest {
 
     @Mock
     private FindCandidatesPerStateUseCase findCandidatesPerStateUseCase;
+
+    @Mock
+    private CalculateIMCUseCase calculateIMCUseCase;
 
     @Test
     @DisplayName("Should create Person with success")
@@ -72,6 +78,27 @@ public class PersonControllerUnitTest extends BaseTest {
         // then
         verify(this.findCandidatesPerStateUseCase,VerificationModeFactory.times(1)).find();
         assertEquals(findCandidatesResponseJson.getPersons(), response.getPersons());
+    }
+
+    @Test
+    @DisplayName("Should by return calculate imc")
+    public void givenAny_whenCalculateIMC_thenReturnListOfIMCs() {
+        // given
+        final List<IMC> imcs = new ArrayList<>();
+        IMC imc = IMC.builder().imc(30.0).smallerGap(5).graterGap(10).build();
+        imcs.add(imc);
+        final CalculateIMCResponseJson calculateIMCResponseJson = CalculateIMCResponseJson
+                .builder()
+                .imcs(imcs)
+                .build();
+        when(this.calculateIMCUseCase.calculate()).thenReturn(imcs);
+
+        // when
+        final CalculateIMCResponseJson response = this.personController.calculateIMC();
+
+        // then
+        verify(this.calculateIMCUseCase,VerificationModeFactory.times(1)).calculate();
+        assertEquals(calculateIMCResponseJson.getImcs(), response.getImcs());
     }
 
     private CreatePersonRequestJson getCreatePersonRequestJson() {
