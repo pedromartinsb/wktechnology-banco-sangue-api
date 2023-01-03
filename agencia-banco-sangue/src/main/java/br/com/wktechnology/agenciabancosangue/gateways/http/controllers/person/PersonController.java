@@ -1,5 +1,6 @@
 package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person;
 
+import br.com.wktechnology.agenciabancosangue.domains.BloodTypeAgeAverage;
 import br.com.wktechnology.agenciabancosangue.domains.IMC;
 import br.com.wktechnology.agenciabancosangue.domains.Candidates;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.*;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("${baseurl.v1}/person")
 @Api(tags = "Person", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -117,8 +118,12 @@ public class PersonController {
     @Validated
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("blood-type-age-average")
-    public List<BloodTypeAgeAverageResponseJson> getBloodTypeAgeAverage() {
-        return this.bloodTypeAgeAverageUseCase.get();
+    public BloodTypeAgeAverageResponseJson getBloodTypeAgeAverage() {
+        List<BloodTypeAgeAverage> response = this.bloodTypeAgeAverageUseCase.get();
+        return BloodTypeAgeAverageResponseJson
+                .builder()
+                .bloodTypeAgeAverages(response)
+                .build();
     }
 
     @ApiOperation(value = "Resource to get possible donations by receptor blood type",

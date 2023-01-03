@@ -1,8 +1,8 @@
 package br.com.wktechnology.agenciabancosangue.usecases;
 
+import br.com.wktechnology.agenciabancosangue.domains.BloodTypeAgeAverage;
 import br.com.wktechnology.agenciabancosangue.domains.Person;
 import br.com.wktechnology.agenciabancosangue.domains.enums.BloodType;
-import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.BloodTypeAgeAverageResponseJson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class BloodTypeAgeAverageUseCase {
     @Autowired
     private GetPersonByBloodTypeUseCase getPersonByBloodTypeUseCase;
 
-    public List<BloodTypeAgeAverageResponseJson> get() {
+    public List<BloodTypeAgeAverage> get() {
         // dividir em listas por tipo sanguineo
         var aPlusBloodTypeAgeAverageResponseJson =
                 getBloodTypeAgeAverageResponseJson(BloodType.A_PLUS.getName(), BloodType.A_PLUS.getDescription());
@@ -47,16 +47,16 @@ public class BloodTypeAgeAverageUseCase {
                 abNegativeBloodTypeAgeAverageResponseJson);
     }
 
-    private List<BloodTypeAgeAverageResponseJson> getResponseJson(
-            final BloodTypeAgeAverageResponseJson aPlusBloodTypeAgeAverageResponseJson,
-            final BloodTypeAgeAverageResponseJson aNegativeBloodTypeAgeAverageResponseJson,
-            final BloodTypeAgeAverageResponseJson bPlusBloodTypeAgeAverageResponseJson,
-            final BloodTypeAgeAverageResponseJson bNegativeBloodTypeAgeAverageResponseJson,
-            final BloodTypeAgeAverageResponseJson oPlusBloodTypeAgeAverageResponseJson,
-            final BloodTypeAgeAverageResponseJson oNegativeBloodTypeAgeAverageResponseJson,
-            final BloodTypeAgeAverageResponseJson abPlusBloodTypeAgeAverageResponseJson,
-            final BloodTypeAgeAverageResponseJson abNegativeBloodTypeAgeAverageResponseJson) {
-        List<BloodTypeAgeAverageResponseJson> averageResponseJsonList = new ArrayList<>();
+    private List<BloodTypeAgeAverage> getResponseJson(
+            final BloodTypeAgeAverage aPlusBloodTypeAgeAverageResponseJson,
+            final BloodTypeAgeAverage aNegativeBloodTypeAgeAverageResponseJson,
+            final BloodTypeAgeAverage bPlusBloodTypeAgeAverageResponseJson,
+            final BloodTypeAgeAverage bNegativeBloodTypeAgeAverageResponseJson,
+            final BloodTypeAgeAverage oPlusBloodTypeAgeAverageResponseJson,
+            final BloodTypeAgeAverage oNegativeBloodTypeAgeAverageResponseJson,
+            final BloodTypeAgeAverage abPlusBloodTypeAgeAverageResponseJson,
+            final BloodTypeAgeAverage abNegativeBloodTypeAgeAverageResponseJson) {
+        List<BloodTypeAgeAverage> averageResponseJsonList = new ArrayList<>();
         averageResponseJsonList.add(aPlusBloodTypeAgeAverageResponseJson);
         averageResponseJsonList.add(aNegativeBloodTypeAgeAverageResponseJson);
         averageResponseJsonList.add(bPlusBloodTypeAgeAverageResponseJson);
@@ -68,15 +68,15 @@ public class BloodTypeAgeAverageUseCase {
         return averageResponseJsonList;
     }
 
-    private BloodTypeAgeAverageResponseJson getBloodTypeAgeAverageResponseJson(
+    private BloodTypeAgeAverage getBloodTypeAgeAverageResponseJson(
             final String name, final String description) {
         List<Person> bloodTypeList = this.getPersonByBloodTypeUseCase.get(name);
         var average = (int) bloodTypeList.stream().mapToInt(Person::getAge).average().orElse(Double.NaN);
         return getBloodTypeAgeAverageResponseJson(average, description);
     }
 
-    private BloodTypeAgeAverageResponseJson getBloodTypeAgeAverageResponseJson(final int aPlus, final String description) {
-        BloodTypeAgeAverageResponseJson aPlusBloodTypeAgeAverageResponseJson = new BloodTypeAgeAverageResponseJson();
+    private BloodTypeAgeAverage getBloodTypeAgeAverageResponseJson(final int aPlus, final String description) {
+        BloodTypeAgeAverage aPlusBloodTypeAgeAverageResponseJson = new BloodTypeAgeAverage();
         aPlusBloodTypeAgeAverageResponseJson.setBloodType(description);
         aPlusBloodTypeAgeAverageResponseJson.setAverage(aPlus);
         return aPlusBloodTypeAgeAverageResponseJson;

@@ -132,21 +132,24 @@ public class PersonControllerUnitTest extends BaseTest {
     @DisplayName("Should by return an average age by blood type")
     public void givenAny_whenBloodTypeAgeAverage_thenReturnListOfBloodTypeAgeAverage() {
         // given
-        final List<BloodTypeAgeAverageResponseJson> averageResponseJsonList = new ArrayList<>();
+        final List<BloodTypeAgeAverage> averageResponseJsonList = new ArrayList<>();
+        BloodTypeAgeAverage bloodTypeAgeAverage = new BloodTypeAgeAverage();
+        bloodTypeAgeAverage.setAverage(14);
+        bloodTypeAgeAverage.setBloodType("A+");
+        averageResponseJsonList.add(bloodTypeAgeAverage);
+
         final BloodTypeAgeAverageResponseJson bloodTypeAgeAverageResponseJson = BloodTypeAgeAverageResponseJson
                 .builder()
-                .average(14)
-                .bloodType("A+")
+                .bloodTypeAgeAverages(averageResponseJsonList)
                 .build();
-        averageResponseJsonList.add(bloodTypeAgeAverageResponseJson);
         when(this.bloodTypeAgeAverageUseCase.get()).thenReturn(averageResponseJsonList);
 
         // when
-        final List<BloodTypeAgeAverageResponseJson> response = this.personController.getBloodTypeAgeAverage();
+        final BloodTypeAgeAverageResponseJson response = this.personController.getBloodTypeAgeAverage();
 
         // then
         verify(this.bloodTypeAgeAverageUseCase,VerificationModeFactory.times(1)).get();
-        assertEquals(averageResponseJsonList.size(), response.size());
+        assertEquals(bloodTypeAgeAverageResponseJson.getBloodTypeAgeAverages().size(), response.getBloodTypeAgeAverages().size());
         assertEquals(averageResponseJsonList.isEmpty(), Boolean.FALSE);
     }
 
