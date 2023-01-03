@@ -1,4 +1,4 @@
-package br.com.wktechnology.agenciabancosangue.databuilders.utils;
+package br.com.wktechnology.agenciabancosangue.utils;
 
 import br.com.wktechnology.agenciabancosangue.databuilders.domains.DomainsDataBuilder;
 import com.github.javafaker.Faker;

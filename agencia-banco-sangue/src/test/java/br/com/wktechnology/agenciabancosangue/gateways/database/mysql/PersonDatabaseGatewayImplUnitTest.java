@@ -1,6 +1,6 @@
 package br.com.wktechnology.agenciabancosangue.gateways.database.mysql;
 
-import br.com.wktechnology.agenciabancosangue.databuilders.utils.BaseTest;
+import br.com.wktechnology.agenciabancosangue.utils.BaseTest;
 import br.com.wktechnology.agenciabancosangue.domains.Person;
 import br.com.wktechnology.agenciabancosangue.gateways.database.person.mysql.PersonDatabaseGatewayImpl;
 import br.com.wktechnology.agenciabancosangue.gateways.database.person.mysql.repository.PersonRepository;

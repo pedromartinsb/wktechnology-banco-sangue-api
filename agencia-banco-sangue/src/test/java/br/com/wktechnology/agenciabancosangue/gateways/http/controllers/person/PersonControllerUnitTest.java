@@ -1,6 +1,6 @@
 package br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person;
 
-import br.com.wktechnology.agenciabancosangue.databuilders.utils.BaseTest;
+import br.com.wktechnology.agenciabancosangue.utils.BaseTest;
 import br.com.wktechnology.agenciabancosangue.domains.Person;
 import br.com.wktechnology.agenciabancosangue.gateways.http.controllers.person.json.CreatePersonRequestJson;
 import br.com.wktechnology.agenciabancosangue.usecases.CreatePersonUseCase;
