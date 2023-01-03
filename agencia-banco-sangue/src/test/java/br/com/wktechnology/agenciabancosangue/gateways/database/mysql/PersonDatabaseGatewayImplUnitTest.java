@@ -1,4 +1,4 @@
-package br.com.wktechnology.agenciabancosangue.gateways.person.mysql;
+package br.com.wktechnology.agenciabancosangue.gateways.database.mysql;
 
 import br.com.wktechnology.agenciabancosangue.databuilders.utils.BaseTest;
 import br.com.wktechnology.agenciabancosangue.domains.Person;
