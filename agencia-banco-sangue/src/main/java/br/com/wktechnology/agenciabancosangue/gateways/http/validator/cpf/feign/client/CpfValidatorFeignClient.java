@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
 
-@FeignClient(name = "${feign.cpfValidator.name", url = "${feign.cpfValidator.url}")
+@FeignClient(name = "${feign.cpfValidator.name}", url = "${feign.cpfValidator.url}")
 public interface CpfValidatorFeignClient {
 
     @GetMapping("users/{cpf}")
