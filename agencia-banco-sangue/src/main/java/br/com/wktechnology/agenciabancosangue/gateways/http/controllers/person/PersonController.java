@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -54,6 +55,7 @@ public class PersonController {
     @Validated
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
+    @Cacheable
     public void create(
             final @RequestBody() @Valid List<CreatePersonRequestJson> listCreatePersonRequestJson) {
         listCreatePersonRequestJson.forEach(this.createPersonUseCase::create);
@@ -69,6 +71,7 @@ public class PersonController {
     @Validated
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("find-candidates")
+    @Cacheable
     public FindCandidatesResponseJson findCandidatesPerState() {
         List<Candidates> candidates = this.findCandidatesPerStateUseCase.find();
         return FindCandidatesResponseJson
@@ -87,6 +90,7 @@ public class PersonController {
     @Validated
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("calculate-imc")
+    @Cacheable
     public CalculateIMCResponseJson calculateIMC() {
         List<IMC> imcList = this.calculateIMCUseCase.calculate();
         return CalculateIMCResponseJson
@@ -105,6 +109,7 @@ public class PersonController {
     @Validated
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("obese-percentage")
+    @Cacheable
     public ObesePercentageResponseJson getObesePercentage() {
         return this.getObesePercentageUseCase.get();
     }
@@ -118,6 +123,7 @@ public class PersonController {
     @Validated
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("blood-type-age-average")
+    @Cacheable
     public BloodTypeAgeAverageResponseJson getBloodTypeAgeAverage() {
         List<BloodTypeAgeAverage> response = this.bloodTypeAgeAverageUseCase.get();
         return BloodTypeAgeAverageResponseJson
@@ -136,6 +142,7 @@ public class PersonController {
     @Validated
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("possible-donations")
+    @Cacheable
     public PossibleDonationsResponseJson getPossibleDonationsByReceptorBloodType() {
         return this.possibleDonationsByReceptorBloodTypeUseCase.get();
     }
